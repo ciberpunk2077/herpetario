@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active"><a href="{% url 'catalogo:familia-list' %}">Familia</a></li>
+{% endblock %}
+{% block subtitulo %}
+    <i class="fa fa-circle text-success"></i>
+    Familia
+{% endblock %}
+{% block container %}
+
+    <div id="id_messages" class="container p-0 mt-3" ></div>
+    <div class="row">
+      <div class="container">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="white-box">
+                <div class="row">
+                    {% if user.is_admin or user.is_superuser %}
+                        <a href="" class="btn btn-success pull-left"><i class="fa fa-plus"></i>Nuevo</a>
+                    {% endif %}
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>NOMBRE</th>
+                            <th>DESCRIPCIÓN</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for familia in familia_list %}
+                            <tr>
+                                <td>
+                                    {% if user.administrador or user.capturista or user.is_superuser %}
+                                        <a data-toggle="tooltip" data-placement="top"
+                                           title="Editar {{ familia.nombre }}"
+                                           class="btn btn-danger btn-circle"
+                                           href="{% url 'catalogo:familia-edit' familia.pk %}"><i
+                                                class="fa fa-edit"></i></a>
+                                        <a data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                           class="btn btn-warning btn-circle"
+                                           href="javascript:void(0);"
+                                           onclick="_remove('{{ familia.nombre }}',' {{ familia.pk }}');"><i
+                                                class="fa fa-trash"></i></a>
+                                    {% endif %}
+                                </td>
+                                <td>{{ familia.nombre }}</td>
+                                <td>{{ familia.descripcion }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <link rel="stylesheet"
+          href="{% static 'assets/plugins/bower_components/datatables-plugins/integration/bootstrap/1/dataTables.bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/bower_components/sweetalert/sweetalert.css' %}">
+    <script src="{% static 'assets/plugins/bower_components/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bower_components/datatables-responsive/js/dataTables.responsive.js' %}"></script>
+
+    <script src="{% static 'datatable/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'datatable/jszip.min.js' %}"></script>
+    <!-- <script src="{% static 'datatable/pdfmake.min.js' %}"></script> -->
+    <script src="{% static 'datatable/vfs_fonts.js' %}"></script>
+    <script src="{% static 'datatable/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'datatable/buttons.print.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bower_components/sweetalert/sweetalert.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+    <script>
+        function _remove(_nombre, _object_id) {
+            console.log(_nombre)
+            console.log(_object_id)
+            swal({
+                title: "¿Desea eliminar el campo ' " + _nombre + "  '?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Eliminar",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    swal.close();
+                    $.ajax({
+                        url: '{% url 'catalogo-api:api-familia-remove' %}',
+                        type: 'POST',
+                        data: {csrfmiddlewaretoken: '{{ csrf_token }}', pk: _object_id},
+                        success: function (response) {
+                            if (response.error == 0) {
+                                $("#id_messages").html(`<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${response.message}</div>`);
+                                setTimeout(function () {
+                                    location.reload();//
+                                }, 2500);
+                            } else if (response.error == 1 || response.error == 2) {
+                                $("#id_messages").html(`<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${response.message}</div>`);
+                            }
+                        }, error: function (error) {
+                            $("#id_messages").html(`<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Ha ocurrido un error, inténtelo nuevamente.</div>`);
+                        }
+                    });
+                }
+            })
+        }
+
+        $(function () {
+        });
+    </script>
+
+
+
+{% endblock %}

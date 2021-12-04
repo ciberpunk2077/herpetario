@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Diversity</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <!--<link href="style.css" rel="stylesheet" type="text/css" media="screen" />-->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" type="text/css" media="screen"/>
+
+
+    <link href="{% static 'assets/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+
+    <!-- Menu CSS -->
+    <link href="{% static 'assets/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css' %}" rel="stylesheet">
+    <!-- toast CSS -->
+
+
+    {% block style %} {% endblock %}
+</head>
+<body>
+{% include 'base_sidebar.html' %}
+{% include 'base_navbar.html' %}
+
+<!-- en esta parte se pone lo que va dentro de home -->
+{% block container %}
+{% endblock %}
+
+<!-- end sidebar -->
+<!-- start page -->
+
+<!-- end page -->
+<div id="footer">
+    <p>&copy;2022 Todos Los Derechos Reservados.<br/>
+        Dirigir a <a target="_blank" href="http://www.ujat.mx/">UJAT</a></p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

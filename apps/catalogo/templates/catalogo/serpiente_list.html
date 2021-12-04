@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<div id="id_messages" class="container-fluid p-0"></div>
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="white-box">
+            <div class="row">
+
+                    <a href="" class="btn btn-success pull-left"><i
+                            class="fa fa-plus"></i>
+                        Nuevo</a>
+
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>NOMBRE CIENTIFICO</th>
+                        <th>NOMBRE COMUN</th>
+                        <th style="width: 4%;">IMAGEN</th>
+                        <th>ESPECIE</th>
+                        <th>GENERO</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>
+
+                                    <a data-toggle="tooltip" data-placement="top" title="Editar "
+                                       class="btn btn-danger btn-circle"
+                                       href=""><i class="fa fa-edit"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                       class="btn btn-warning btn-circle"
+                                       href="javascript:void(0);"
+                                       onclick=><i
+                                            class="fa fa-trash"></i></a>
+
+
+                                    <a data-toggle="tooltip" data-placement="top" title="Ver "
+                                       class="btn btn-danger btn-circle"
+                                       href=""><i
+                                            class="fa fa-eye"></i></a>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
