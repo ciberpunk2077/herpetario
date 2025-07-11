@@ -1,68 +1,67 @@
 from django.db import models
-
-# Create your models here.
-import os
-from pyexpat import model
-
 from django.contrib.auth.models import AbstractUser
-from django.db import models
 
-
-# Create your models here.
-
-# Usuarios
-
+# Modelo de Usuario personalizado
 class User(AbstractUser):
     administrador = models.BooleanField(default=False)
     capturista = models.BooleanField(default=False)
     usuario = models.BooleanField(default=False)
 
+# Taxonomía
 class Familia(models.Model):
-    nombre = models.CharField(max_length=200)
-    descripcion = models.CharField(max_length=500)
-
-    class Meta:
-        default_permissions =()
+    nombre = models.CharField(max_length=50, unique=True)  # Ej: "Viperidae"
+    descripcion = models.TextField(blank=True)
 
     def __str__(self):
-        return f'{self.nombre}'
+        return self.nombre
 
+class Genero(models.Model):
+    nombre = models.CharField(max_length=50, unique=True)  # Ej: "Crotalus"
+    familia = models.ForeignKey(Familia, on_delete=models.CASCADE, related_name='generos')
+    descripcion = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.familia.nombre})"
+
+# Modelo principal corregido (una sola clase Especie)
 class Especie(models.Model):
-    nombre = models.CharField(max_length=200)
-    descripcion = models.CharField(max_length=500)
-    familia = models.ForeignKey("catalogo.Familia", on_delete=models.CASCADE, null=True, blank=True)
+    TIPO_ANIMAL_CHOICES = [
+        ('Serpiente', 'Serpiente'),
+        ('Anfibio', 'Anfibio'),
+        ('Saurio', 'Saurio'),
+    ]
+
+    # Relaciones taxonómicas (en lugar de campos CharField)
+    genero = models.ForeignKey(Genero, on_delete=models.PROTECT, related_name='especies')
+    nombre_especie = models.CharField(max_length=50)  # Parte específica del nombre científico
+    nombre_comun = models.CharField(max_length=100, blank=True)
+    
+    # Clasificación general
+    tipo_animal = models.CharField(max_length=20, choices=TIPO_ANIMAL_CHOICES)
+    subtipo = models.CharField(max_length=50, blank=True)  # Ej: "Venenosa", "Constrictora"
+    habitat = models.CharField(max_length=100, blank=True)
+    peligro_extincion = models.BooleanField(default=False)
 
     class Meta:
-        default_permissions = ()
+        verbose_name_plural = "Especies"
+        unique_together = [('genero', 'nombre_especie')]  # Evita duplicados científicos
 
     def __str__(self):
-        return f'{self.nombre}'
+        return f"{self.nombre_cientifico} ({self.nombre_comun})"
 
+    @property
+    def nombre_cientifico(self):
+        return f"{self.genero.nombre} {self.nombre_especie}"
 
-class Serpientes(models.Model):
-    def get_upload_path_imagen(instance, filename):
-        folder = 'imagenes/serpientes/{}/{}/{}'.format(instance.especie.nombre,instance.especie.nombre,instance.get_genero_display())
-        ruta = os.path.join("media/",folder)
-        return os.path.join(ruta,filename)
+    @property
+    def familia(self):
+        return self.genero.familia.nombre  # Acceso directo a la familia
 
-    CHOICES_GENERO = ((1, 'Masculino'), (2, 'Femenino'),  (3, 'Hermafrodita'))
-    CHOICES_VENENOSA = ((1, 'Si'), (2, 'No'))
+# Atributos dinámicos
+class AtributoEspecie(models.Model):
+    especie = models.ForeignKey(Especie, on_delete=models.CASCADE, related_name='atributos')
+    clave = models.CharField(max_length=50)  # Ej: "tipo_veneno", "humedad_ideal"
+    valor = models.TextField()
 
-    genero = models.IntegerField(choices=CHOICES_GENERO,null=True,blank=True)
-    venenosa = models.IntegerField(choices=CHOICES_VENENOSA,null=True,blank=True)
-    nombre_comun = models.CharField(max_length=200, null=True, blank=True)
-    nombre_cientifico = models.CharField(max_length=200)
-    area_distribucion = models.CharField(max_length=500, null=True, blank=True)
-    categoria_riesgo = models.CharField(max_length=500, null=True, blank=True)
-    dieta = models.CharField(max_length=500, null=True, blank=True)
-    orden = models.CharField(max_length=200, null=True, blank=True)
-    suborden = models.CharField(max_length=200, null=True, blank=True)
-    nombre_del_cientifico = models.CharField(max_length=200, null=True, blank=True)
-    descripcion = models.CharField(max_length=500, null=True, blank=True)
-    imagen = models.FileField(upload_to=get_upload_path_imagen, null=True, blank=True)
-    referencia_bibliografica = models.CharField(max_length=300, null=True, blank=True)
-    especie = models.ForeignKey(Especie, on_delete=models.CASCADE, null=True, blank=False)
-
-
-    class Meta:
-        default_permissions = ()
+    def __str__(self):
+        return f"{self.clave}: {self.valor} (para {self.especie.nombre_cientifico})"

@@ -1,0 +1,48 @@
+{% load static %}
+
+<header class="bg-secondary text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-accent" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <h1 class="text-2xl font-bold">Nexus<span class="text-primary">Herpetario</span>
+                </h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="{% url 'catalogo:home' %}" class="hover:text-accent transition duration-300">Inicio</a>
+                <a href="{% url 'info:presentacion' %}" class="hover:text-accent transition duration-300">Especies</a>
+                <a href="{% url 'info:coleccion' %}" class="hover:text-accent transition duration-300">Visítanos</a>
+                <a href="{% url 'catalogo:serpiente-list' %}" class="hover:text-accent transition duration-300">Serpiente</a>
+                <a href="#" class="hover:text-accent transition duration-300">Contacto</a>
+            </nav>
+            <div class="hidden md:flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    <span class="text-sm text-gray-300">Hola, {{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="bg-danger hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Cerrar sesión</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-primary hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Iniciar sesión</span>
+                    </a>
+                {% endif %}
+            </div>
+            <button class="md:hidden focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>

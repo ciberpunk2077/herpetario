@@ -1,52 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block container %}
 
-<div id="page">
-  <!-- start content -->
-  <div id="content">
-    <h1 class="pagetitle">Recent Posts prueba1</h1>
-    <div class="post">
-      <div class="ct">
-        <div class="l">
-          <div class="r"></div>
-        </div>
-      </div>
-      <h2 class="title">Welcome to My Website</h2>
-      <p class="byline"><small>Posted on August 25th, 2007 by <a href="#">admin</a> | <a href="#">Edit</a></small></p>
-      <div class="entry">
-        <p><strong>Diversity</strong> is a free template from Free CSS Templates released under a <a target="_blank" href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attribution 2.5 License</a>. You're free to use this template for both commercial or personal use. The photos are from PDPhoto.org. I only ask that you link back to my site in some way. Enjoy :)</p>
-      </div>
-      <p class="meta"><a href="#" class="more">Read More</a> &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments (33)</a></p>
-      <div class="cb">
-        <div class="l">
-          <div class="r"></div>
-        </div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="ct">
-        <div class="l">
-          <div class="r"></div>
-        </div>
-      </div>
-      <h2 class="title">Risus Pellentesque Pharetra</h2>
-      <p class="byline"><small>Posted on August 25th, 2007 by <a href="#">admin</a> | <a href="#">Edit</a></small></p>
-      <div class="entry">
-        <blockquote>
-          <p>&#8220;Praesent augue mauris, accumsan eget, ornare quis, consequat malesuada, leo.&#8221;</p>
-        </blockquote>
-        <p>Maecenas pede nisl, elementum eu, ornare ac, malesuada at, erat. Proin gravida orci porttitor enim accumsan lacinia. Donec condimentum, urna non molestie semper, ligula enim ornare nibh, quis laoreet eros quam eget ante.</p>
-      </div>
-      <p class="meta"><a href="#" class="more">Read More</a> &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments (33)</a></p>
-      <div class="cb">
-        <div class="l">
-          <div class="r"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end content -->
-</div>
-
+{% block content %}
+{% include 'main.html' %}
 {% endblock %}

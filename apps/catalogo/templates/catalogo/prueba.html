@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Tailwind CSS</title>
+    {% load tailwind_tags %}
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Hero Section con imagen de fondo -->
+    <div class="relative bg-cover bg-center bg-no-repeat h-96" style="background-image: url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="relative z-10 flex items-center justify-center h-full">
+            <div class="text-center text-white">
+                <h1 class="text-5xl font-bold mb-4">Dscubre el Mundo de los Reptiles y Anfibios</h1>
+                <p class="text-xl mb-6">Explora la fascinante diversidad de especies en nuestro herpetario</p>
+                <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    Explorar Colección
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-blue-600 mb-4">¡Tailwind CSS Funciona!</h2>
+            <p class="text-lg text-gray-600">Herpetario - Sistema de Gestión</p>
+        </header>
+
+        <!-- Cards de demostración -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="text-3xl mb-4">🐍</div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Serpientes</h3>
+                <p class="text-gray-600">Gestiona tu colección de serpientes</p>
+                <button class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+                    Ver Serpientes
+                </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="text-3xl mb-4">🦎</div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Lagartos</h3>
+                <p class="text-gray-600">Administra tus lagartos</p>
+                <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+                    Ver Lagartos
+                </button>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="text-3xl mb-4">🐸</div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Anfibios</h3>
+                <p class="text-gray-600">Control de anfibios</p>
+                <button class="mt-4 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition-colors">
+                    Ver Anfibios
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección de estadísticas -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Estadísticas del Herpetario</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600">25</div>
+                    <div class="text-gray-600">Serpientes</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600">18</div>
+                    <div class="text-gray-600">Lagartos</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-600">12</div>
+                    <div class="text-gray-600">Anfibios</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-orange-600">55</div>
+                    <div class="text-gray-600">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-8 text-gray-500">
+            <p>Herpetario - Desarrollado con Django y Tailwind CSS</p>
+        </footer>
+    </div>
+</body>
+</html> 

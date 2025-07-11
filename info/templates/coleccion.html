@@ -1,0 +1,423 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-secondary to-primary text-white py-20">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                Nuestra <span class="text-accent">Colección</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-100 leading-relaxed">
+                Descubre nuestra impresionante colección de reptiles y anfibios de todo el mundo, 
+                cuidadosamente seleccionada para la conservación y educación
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#serpientes" class="bg-accent hover:bg-accent-dark text-white px-8 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105">
+                    Ver Serpientes
+                </a>
+                <a href="#lagartos" class="border-2 border-white text-white hover:bg-white hover:text-secondary px-8 py-3 rounded-lg font-semibold transition duration-300">
+                    Ver Lagartos
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Collection Overview -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-secondary mb-4">Nuestra Colección</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Más de 150 especies cuidadosamente seleccionadas, representando la diversidad 
+                de reptiles y anfibios de diferentes continentes y hábitats
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div class="bg-gradient-to-br from-primary to-secondary text-white p-6 rounded-xl text-center">
+                <div class="text-4xl font-bold mb-2">85</div>
+                <div class="text-lg">Serpientes</div>
+                <div class="text-sm opacity-80">Especies únicas</div>
+            </div>
+            <div class="bg-gradient-to-br from-accent to-yellow-500 text-white p-6 rounded-xl text-center">
+                <div class="text-4xl font-bold mb-2">45</div>
+                <div class="text-lg">Lagartos</div>
+                <div class="text-sm opacity-80">Especies únicas</div>
+            </div>
+            <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white p-6 rounded-xl text-center">
+                <div class="text-4xl font-bold mb-2">15</div>
+                <div class="text-lg">Tortugas</div>
+                <div class="text-sm opacity-80">Especies únicas</div>
+            </div>
+            <div class="bg-gradient-to-br from-purple-500 to-pink-600 text-white p-6 rounded-xl text-center">
+                <div class="text-4xl font-bold mb-2">25</div>
+                <div class="text-lg">Anfibios</div>
+                <div class="text-sm opacity-80">Especies únicas</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Snakes Section -->
+<section id="serpientes" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-secondary mb-4">Serpientes</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Desde las más pequeñas hasta las más grandes, venenosas y no venenosas, 
+                nuestras serpientes representan la diversidad de estos fascinantes reptiles
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Snake Card 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 0h8m-8 0H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Pitón Real</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">No venenosa</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Python regius</p>
+                    <p class="text-gray-600 mb-4">Serpiente constrictora africana conocida por su temperamento tranquilo y patrones de color únicos.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>África Occidental</span>
+                        <span>1.2 - 1.8m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snake Card 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 0h8m-8 0H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Cascabel Tropical</h3>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Venenosa</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Crotalus durissus</p>
+                    <p class="text-gray-600 mb-4">Serpiente venenosa con cascabel en la cola, endémica de América Central y del Sur.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>América del Sur</span>
+                        <span>1.5 - 2.0m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snake Card 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 0h8m-8 0H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Serpiente Rey</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">No venenosa</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Lampropeltis triangulum</p>
+                    <p class="text-gray-600 mb-4">Serpiente no venenosa que se alimenta de otras serpientes, incluyendo venenosas.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>América del Norte</span>
+                        <span>0.8 - 1.5m</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lizards Section -->
+<section id="lagartos" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-secondary mb-4">Lagartos</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Desde pequeños geckos hasta grandes iguanas, nuestros lagartos muestran 
+                la increíble diversidad de estos reptiles adaptables
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Lizard Card 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Dragón Barbudo</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Diurno</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Pogona vitticeps</p>
+                    <p class="text-gray-600 mb-4">Lagarto australiano popular por su comportamiento dócil y distintiva "barba" de escamas.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Australia</span>
+                        <span>40 - 60cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lizard Card 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Iguana Verde</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Herbívoro</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Iguana iguana</p>
+                    <p class="text-gray-600 mb-4">Gran lagarto arbóreo de América Central y del Sur, conocido por su color verde brillante.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>América Central</span>
+                        <span>1.5 - 2.0m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lizard Card 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Gecko Leopardo</h3>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Nocturno</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Eublepharis macularius</p>
+                    <p class="text-gray-600 mb-4">Pequeño gecko terrestre del desierto, popular como mascota por su fácil cuidado.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Pakistán/India</span>
+                        <span>20 - 25cm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Turtles Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-secondary mb-4">Tortugas</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Nuestras tortugas representan tanto especies terrestres como acuáticas, 
+                mostrando la increíble adaptabilidad de estos reptiles ancestrales
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Turtle Card 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-blue-400 to-teal-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Tortuga de Orejas Rojas</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Acuática</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Trachemys scripta elegans</p>
+                    <p class="text-gray-600 mb-4">Tortuga acuática popular como mascota, conocida por las manchas rojas en sus "orejas".</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>América del Norte</span>
+                        <span>20 - 30cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Turtle Card 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Tortuga Rusa</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Terrestre</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Testudo horsfieldii</p>
+                    <p class="text-gray-600 mb-4">Tortuga terrestre pequeña y resistente, perfecta para principiantes en el cuidado de tortugas.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Asia Central</span>
+                        <span>15 - 25cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Turtle Card 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Tortuga Sulcata</h3>
+                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">Terrestre</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Centrochelys sulcata</p>
+                    <p class="text-gray-600 mb-4">La tercera tortuga terrestre más grande del mundo, originaria del desierto del Sahara.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>África</span>
+                        <span>60 - 80cm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Amphibians Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-secondary mb-4">Anfibios</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Ranas, sapos y salamandras que representan la transición evolutiva 
+                entre la vida acuática y terrestre
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Amphibian Card 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-yellow-400 to-red-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Rana Flecha Dorada</h3>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Tóxica</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Phyllobates terribilis</p>
+                    <p class="text-gray-600 mb-4">Considerada uno de los animales más venenosos del mundo, endémica de Colombia.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Colombia</span>
+                        <span>4 - 5cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amphibian Card 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Rana Verde de Árbol</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Arborícola</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Hyla cinerea</p>
+                    <p class="text-gray-600 mb-4">Rana arborícola norteamericana conocida por su color verde brillante y canto distintivo.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>América del Norte</span>
+                        <span>3 - 6cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amphibian Card 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Axolotl</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Acuático</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">Ambystoma mexicanum</p>
+                    <p class="text-gray-600 mb-4">Salamandra mexicana que conserva características larvales en su edad adulta.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>México</span>
+                        <span>20 - 30cm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Conservation Message -->
+<section class="py-16 bg-primary text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-6">Conservación y Educación</h2>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+            Cada animal en nuestra colección tiene un propósito: educar al público sobre 
+            la importancia de la conservación y la biodiversidad de nuestro planeta.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div class="bg-white text-secondary p-6 rounded-xl">
+                <div class="text-3xl font-bold text-primary mb-2">100%</div>
+                <div class="font-semibold">Especies Legales</div>
+                <div class="text-sm text-gray-600">Todas nuestras especies provienen de fuentes legales y éticas</div>
+            </div>
+            <div class="bg-white text-secondary p-6 rounded-xl">
+                <div class="text-3xl font-bold text-primary mb-2">50+</div>
+                <div class="font-semibold">Programas de Reproducción</div>
+                <div class="text-sm text-gray-600">Participamos activamente en programas de conservación</div>
+            </div>
+            <div class="bg-white text-secondary p-6 rounded-xl">
+                <div class="text-3xl font-bold text-primary mb-2">24/7</div>
+                <div class="font-semibold">Cuidado Veterinario</div>
+                <div class="text-sm text-gray-600">Atención médica especializada disponible en todo momento</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-accent">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6">Visita Nuestra Colección</h2>
+        <p class="text-xl text-white mb-8 max-w-2xl mx-auto">
+            Ven a conocer de cerca estas increíbles criaturas y aprende sobre la importancia 
+            de su conservación en nuestro planeta.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#" class="bg-white text-accent hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition duration-300">
+                Reservar Visita
+            </a>
+            <a href="#" class="border-2 border-white text-white hover:bg-white hover:text-accent px-8 py-3 rounded-lg font-semibold transition duration-300">
+                Tour Guiado
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,13 +1,7 @@
-from msilib.schema import ListView
-
-from django.db.models import Q
 from django.shortcuts import render
-
-# Create your view here.
 from django.views.generic import TemplateView
-
-from apps.catalogo.models import Especie, Familia, Genero
-
+from django.db.models import Q
+from apps.catalogo.models import Especie, Familia
 
 class HomeViews(TemplateView):
     template_name = 'home.html'
@@ -67,10 +61,14 @@ class PersonalView(TemplateView):
         context = super(PersonalView, self).get_context_data(**kwargs)
         return context
 
-def prueba(request):
-    return render(request, 'catalogo/prueba.html')
+def presentacion(request):
+    return render(request, 'presentacion.html')
 
-def serpiente(request):
-    return render(request, 'catalogo/serpiente_list.html')
+def coleccion(request):
+    return render(request, 'coleccion.html')
 
+def investigacion(request):
+    return render(request, 'investigacion.html')
 
+def personal(request):
+    return render(request, 'personal.html')

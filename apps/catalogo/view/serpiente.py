@@ -4,14 +4,15 @@ from django.utils.timezone import now
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, DeleteView
 
 from apps.catalogo.forms.serpiente import SerpientesForm, SerpientesUpdateForm
-from apps.catalogo.models import Serpientes
+from apps.catalogo.models import Especie
 
 
 class SerpientesListView(ListView):
-    model = Serpientes
+    model = Especie
+    template_name = 'catalogo/serpiente_list.html'
 
     def get_queryset(self):
-        return Serpientes.objects.all()
+        return Especie.objects.filter(tipo_animal='Serpiente')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SerpientesListView, self).get_context_data(**kwargs)
@@ -19,13 +20,14 @@ class SerpientesListView(ListView):
 
 
 class SerpientesCreateView(CreateView):
-    model = Serpientes
+    model = Especie
     form_class = SerpientesForm
+    template_name = 'catalogo/serpiente_form.html'
 
     def form_valid(self, form):
-        form.instance.user_by = self.request.user.pk
+        form.instance.tipo_animal = 'Serpiente'
         form.save()
-        messages.success(self.request, "El registro ha sido creadao con éxito.")
+        messages.success(self.request, "El registro ha sido creado con éxito.")
         return super(SerpientesCreateView, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -37,8 +39,9 @@ class SerpientesCreateView(CreateView):
 
 
 class SerpientesUpdateView(UpdateView):
-    model = Serpientes
+    model = Especie
     form_class = SerpientesUpdateForm
+    template_name = 'catalogo/serpiente_form.html'
 
     def get_context_data(self, **kwargs):
         context = super(SerpientesUpdateView, self).get_context_data(**kwargs)
@@ -46,8 +49,7 @@ class SerpientesUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        form.instance.user_by = self.request.user.pk
-        form.instance.updated_at = now()
+        form.instance.tipo_animal = 'Serpiente'
         form.save()
         messages.success(self.request, "El registro ha sido actualizado con éxito.")
         return super(SerpientesUpdateView, self).form_valid(form)
@@ -65,11 +67,11 @@ class SerpientesDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SerpientesDetailView, self).get_context_data(**kwargs)
         pk_serpiente = self.kwargs.get('pk')
-        context['serpiete'] = Serpientes.objects.get(pk=pk_serpiente)
+        context['serpiente'] = Especie.objects.get(pk=pk_serpiente)
         return context
 
 class SerpientesDeleteView(DeleteView):
-    model = Serpientes
+    model = Especie
 
     def get_success_url(self):
         messages.success(self.request, "El registro ha sido eliminado con éxito.")

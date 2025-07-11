@@ -19,10 +19,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 def get_secret(var):
-    config_data = open(str(BASE_DIR) + '/secret.json').read()
-    json_data = json.loads(config_data)
-    data_conf = json_data[var]
-    return data_conf
+    # Intentar obtener de variables de entorno primero
+    env_value = os.environ.get(var)
+    if env_value:
+        return env_value
+    
+    # Si no existe variable de entorno, intentar leer del archivo secret.json
+    try:
+        config_data = open(str(BASE_DIR) + '/secret.json').read()
+        json_data = json.loads(config_data)
+        data_conf = json_data[var]
+        return data_conf
+    except FileNotFoundError:
+        # Valores por defecto para desarrollo
+        defaults = {
+            'DB_NAME': 'herpetario',
+            'DB_USER': 'postgres',
+            'DB_PASSWORD': 'tu_password_aqui',
+            'DB_HOST': 'localhost',
+            'DB_PORT': '5432'
+        }
+        return defaults.get(var, '')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-5el32)o0hliop+d2#u(q#2gtq+ed142#p3hg-qd756!-cq3lxt'
 
@@ -42,7 +59,10 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.catalogo'
+    'apps.catalogo',
+    'info',
+    'tailwind',
+    'theme',
 ]
 
 PLUGIN_APPS = [
@@ -153,3 +173,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'catalogo.User'
+
+# Tailwind CSS Configuration
+TAILWIND_APP_NAME = 'theme'
+NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"

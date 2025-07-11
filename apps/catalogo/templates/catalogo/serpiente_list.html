@@ -1,54 +1,152 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<div id="id_messages" class="container-fluid p-0"></div>
-<div class="row">
-    <div class="col-md-12 col-lg-12 col-sm-12">
-        <div class="white-box">
-            <div class="row">
+{% block content %}
+<style>
+    .serpiente-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+    .serpiente-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        border-color: #2A9D8F;
+    }
+    .badge-venenosa {
+        background: linear-gradient(45deg, #dc3545, #c82333);
+        color: white;
+    }
+    .badge-constrictora {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+    }
+    .badge-default {
+        background: linear-gradient(45deg, #6c757d, #495057);
+        color: white;
+    }
+</style>
 
-                    <a href="" class="btn btn-success pull-left"><i
-                            class="fa fa-plus"></i>
-                        Nuevo</a>
-
-                <table class="table table-borderless">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>NOMBRE CIENTIFICO</th>
-                        <th>NOMBRE COMUN</th>
-                        <th style="width: 4%;">IMAGEN</th>
-                        <th>ESPECIE</th>
-                        <th>GENERO</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td>
-
-                                    <a data-toggle="tooltip" data-placement="top" title="Editar "
-                                       class="btn btn-danger btn-circle"
-                                       href=""><i class="fa fa-edit"></i></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                       class="btn btn-warning btn-circle"
-                                       href="javascript:void(0);"
-                                       onclick=><i
-                                            class="fa fa-trash"></i></a>
-
-
-                                    <a data-toggle="tooltip" data-placement="top" title="Ver "
-                                       class="btn btn-danger btn-circle"
-                                       href=""><i
-                                            class="fa fa-eye"></i></a>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center space-x-3 mb-4">
+                <svg class="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-secondary">🐍 Catálogo de Serpientes</h1>
             </div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Explora nuestra colección de serpientes y descubre información detallada sobre cada especie
+            </p>
         </div>
+
+        <!-- Action Bar -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Buscar serpientes..." 
+                           class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+            <a href="{% url 'catalogo:serpiente-create' %}" 
+               class="bg-primary hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 flex items-center space-x-2 shadow-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                <span>Agregar Serpiente</span>
+            </a>
+        </div>
+
+        <!-- Serpientes Grid -->
+        {% if object_list %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for serpiente in object_list %}
+                <div class="serpiente-card rounded-xl p-6">
+                    <!-- Header Card -->
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-secondary mb-1">{{ serpiente.nombre_cientifico }}</h3>
+                            <p class="text-gray-600 font-medium">{{ serpiente.nombre_comun }}</p>
+                        </div>
+                        <div class="flex space-x-1">
+                            {% if serpiente.subtipo == 'Venenosa' %}
+                                <span class="badge-venenosa px-3 py-1 rounded-full text-xs font-semibold">☠️ Venenosa</span>
+                            {% elif serpiente.subtipo == 'Constrictora' %}
+                                <span class="badge-constrictora px-3 py-1 rounded-full text-xs font-semibold">🐍 Constrictora</span>
+                            {% else %}
+                                <span class="badge-default px-3 py-1 rounded-full text-xs font-semibold">{{ serpiente.subtipo }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Info Section -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <span class="text-gray-700">{{ serpiente.habitat|default:"Hábitat no especificado" }}</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                            <span class="text-gray-700">Familia: {{ serpiente.genero.familia.nombre }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-2">
+                        <a href="{% url 'catalogo:serpiente-detail' serpiente.pk %}" 
+                           class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            <span>Ver</span>
+                        </a>
+                        <a href="{% url 'catalogo:serpiente-update' serpiente.pk %}" 
+                           class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white text-center py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                            <span>Editar</span>
+                        </a>
+                        <a href="{% url 'catalogo:serpiente-delete' serpiente.pk %}" 
+                           onclick="return confirm('¿Está seguro de que desea eliminar esta serpiente?')"
+                           class="flex-1 bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            <span>Eliminar</span>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-12">
+                <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay serpientes registradas</h3>
+                <p class="text-gray-500 mb-6">Comienza agregando la primera serpiente a tu catálogo</p>
+                <a href="{% url 'catalogo:serpiente-create' %}" 
+                   class="bg-primary hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 inline-flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    <span>Agregar Primera Serpiente</span>
+                </a>
+            </div>
+        {% endif %}
     </div>
 </div>
+{% endblock %}

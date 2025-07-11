@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background: url('{% static 'assets/images/img01.gif' %}') no-repeat center center fixed;
+        background-size: cover;
+    }
+    .login-card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+        padding: 2.5rem 2rem 2rem 2rem;
+        margin-top: 60px;
+    }
+    .login-logo {
+        width: 80px;
+        margin-bottom: 1rem;
+    }
+    .login-title {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #2d5c3b;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .btn-herpetario {
+        background-color: #2d5c3b;
+        color: #fff;
+        border: none;
+    }
+    .btn-herpetario:hover {
+        background-color: #1e3d27;
+        color: #fff;
+    }
+</style>
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-5 col-lg-4">
+            <div class="login-card">
+                <div class="text-center">
+                    <img src="{% static 'assets/naturaleza.jpg' %}" class="login-logo rounded-circle shadow" alt="Herpetario logo">
+                    <h3 class="login-title mb-3">Herpetario</h3>
+                    <h5 class="mb-4" style="color:#4e7d5a;">Iniciar sesión</h5>
+                </div>
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong> Usuario o contraseña incorrectos.
+                    </div>
+                {% endif %}
+                <form method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="id_username">Usuario</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">👤</span>
+                            </div>
+                            <input type="text" name="username" id="id_username" class="form-control" placeholder="Ingresa tu usuario" required>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="id_password">Contraseña</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">🔒</span>
+                            </div>
+                            <input type="password" name="password" id="id_password" class="form-control" placeholder="Ingresa tu contraseña" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-herpetario btn-block btn-lg mb-2">
+                        <i class="fa fa-sign-in-alt"></i> Entrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
