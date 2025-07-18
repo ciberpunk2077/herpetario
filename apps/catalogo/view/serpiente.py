@@ -2,9 +2,12 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView, DeleteView
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_POST
 
 from apps.catalogo.forms.serpiente import SerpientesForm, SerpientesUpdateForm
-from apps.catalogo.models import Especie
+from apps.catalogo.models import Especie, Genero
 
 
 class SerpientesListView(ListView):
@@ -76,3 +79,36 @@ class SerpientesDeleteView(DeleteView):
     def get_success_url(self):
         messages.success(self.request, "El registro ha sido eliminado con éxito.")
         return reverse_lazy('catalogo:serpiente-list')
+
+@require_GET
+def especie_por_genero_ajax(request):
+    genero_id = request.GET.get('genero_id')
+    especies = []
+    if genero_id:
+        especies = Especie.objects.filter(genero_id=genero_id)
+    return JsonResponse({'especies': [
+        {'id': e.id, 'nombre_cientifico': f'{e.genero.nombre} {e.nombre_especie}'} for e in especies
+    ]})
+
+@csrf_exempt
+@require_POST
+def especie_crear_ajax(request):
+    genero_id = request.POST.get('genero')
+    nombre_especie = request.POST.get('nombre_especie')
+    nombre_comun = request.POST.get('nombre_comun')
+    if not (genero_id and nombre_especie):
+        return JsonResponse({'success': False, 'errors': 'Datos incompletos'}, status=400)
+    try:
+        genero = Genero.objects.get(pk=genero_id)
+    except Genero.DoesNotExist:
+        return JsonResponse({'success': False, 'errors': 'Género no encontrado'}, status=400)
+    especie, created = Especie.objects.get_or_create(
+        genero=genero,
+        nombre_especie=nombre_especie,
+        defaults={'nombre_comun': nombre_comun or '', 'tipo_animal': 'Serpiente'}
+    )
+    return JsonResponse({
+        'success': True,
+        'id': especie.id,
+        'nombre_cientifico': f'{genero.nombre} {especie.nombre_especie}'
+    })

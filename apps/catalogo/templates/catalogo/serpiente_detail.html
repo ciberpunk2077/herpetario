@@ -3,160 +3,251 @@
 
 {% block content %}
 <style>
-    .detail-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        border: 1px solid #e9ecef;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    .pokedex-card {
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        border: 3px solid #22c55e;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(34, 197, 94, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    .pokedex-header {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 17px 17px 0 0;
+        position: relative;
+    }
+    .pokedex-header::before {
+        content: '';
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 12px;
+        height: 12px;
+        background: #fef3c7;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(254, 243, 199, 0.5);
+    }
+    .image-container {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border: 2px solid #22c55e;
+        border-radius: 15px;
+        padding: 1rem;
+        margin: 1rem;
+        text-align: center;
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: 1rem;
     }
     .info-section {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border: 1px solid #dee2e6;
+        background: rgba(255, 255, 255, 0.8);
+        border: 2px solid #22c55e;
+        border-radius: 12px;
+        padding: 1rem;
+    }
+    .info-section h3 {
+        color: #16a34a;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 0.75rem;
+        text-align: center;
+        border-bottom: 2px solid #22c55e;
+        padding-bottom: 0.5rem;
+    }
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #dcfce7;
+    }
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    .info-label {
+        font-weight: 600;
+        color: #166534;
+        font-size: 0.9rem;
+    }
+    .info-value {
+        color: #15803d;
+        font-weight: 500;
     }
     .badge-danger {
-        background: linear-gradient(45deg, #dc3545, #c82333);
+        background: linear-gradient(45deg, #dc2626, #b91c1c);
         color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
     }
     .badge-success {
-        background: linear-gradient(45deg, #28a745, #20c997);
+        background: linear-gradient(45deg, #059669, #047857);
         color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
     }
     .badge-warning {
-        background: linear-gradient(45deg, #ffc107, #e0a800);
-        color: #212529;
+        background: linear-gradient(45deg, #ea580c, #c2410c);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
     }
     .badge-info {
-        background: linear-gradient(45deg, #17a2b8, #138496);
+        background: linear-gradient(45deg, #22c55e, #16a34a);
         color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
     }
+    .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    .action-btn {
+        padding: 0.75rem;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .btn-edit { background: #fbbf24; color: white; }
+    .btn-edit:hover { background: #f59e0b; transform: translateY(-2px); }
+    .btn-delete { background: #ef4444; color: white; }
+    .btn-delete:hover { background: #dc2626; transform: translateY(-2px); }
+    .btn-back { background: #6b7280; color: white; }
+    .btn-back:hover { background: #4b5563; transform: translateY(-2px); }
 </style>
 
-<div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8">
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-green-100 py-8">
     <div class="container mx-auto px-4">
         {% if serpiente %}
-        <!-- Header Section -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center space-x-3 mb-4">
-                <svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                </svg>
-                <h1 class="text-4xl font-bold text-secondary">🐍 {{ serpiente.nombre_cientifico }}</h1>
-            </div>
-            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                Información detallada sobre esta especie de serpiente
-            </p>
-        </div>
-
-        <!-- Main Content -->
-        <div class="max-w-6xl mx-auto">
-            <div class="detail-card rounded-xl p-8">
-                <!-- Scientific Name Banner -->
-                <div class="bg-gradient-to-r from-primary to-teal-600 text-white p-6 rounded-lg mb-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="pokedex-card">
+                <!-- Header tipo Pokédex -->
+                <div class="pokedex-header">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h2 class="text-3xl font-bold mb-2">{{ serpiente.nombre_cientifico }}</h2>
+                            <h1 class="text-3xl font-bold mb-2">🐍 {{ serpiente.nombre_cientifico }}</h1>
                             <p class="text-xl opacity-90">{{ serpiente.nombre_comun|default:"Sin nombre común" }}</p>
                         </div>
                         <div class="text-right">
-                            {% if serpiente.subtipo == 'Venenosa' %}
-                                <span class="badge-danger px-4 py-2 rounded-full text-sm font-semibold">☠️ Venenosa</span>
-                            {% elif serpiente.subtipo == 'Constrictora' %}
-                                <span class="badge-success px-4 py-2 rounded-full text-sm font-semibold">🐍 Constrictora</span>
+                            {% if serpiente.subtipo == 'Venenoso' %}
+                                <span class="badge-danger">☠️ Venenoso</span>
+                            {% elif serpiente.subtipo == 'Tóxico' %}
+                                <span class="badge-warning">⚠️ Tóxico</span>
                             {% else %}
-                                <span class="badge-info px-4 py-2 rounded-full text-sm font-semibold">{{ serpiente.subtipo|default:"No especificado" }}</span>
+                                <span class="badge-info">{{ serpiente.subtipo|default:"No venenoso" }}</span>
                             {% endif %}
                         </div>
                     </div>
                 </div>
 
-                <!-- Information Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Taxonomic Information -->
-                    <div class="info-section rounded-lg p-6">
-                        <h3 class="text-xl font-bold text-secondary mb-6 flex items-center">
-                            <svg class="w-6 h-6 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                            Información Taxonómica
-                        </h3>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="font-semibold text-gray-700">Género:</span>
-                                <span class="text-gray-900">{{ serpiente.genero.nombre }}</span>
+                <!-- Imagen central -->
+                {% if serpiente.imagen %}
+                <div class="image-container">
+                    <img src="{{ serpiente.imagen.url }}" alt="Imagen de {{ serpiente.nombre_cientifico }}" class="h-64 w-auto mx-auto rounded-lg shadow-lg object-contain"/>
                             </div>
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="font-semibold text-gray-700">Familia:</span>
-                                <span class="text-gray-900">{{ serpiente.familia }}</span>
+                {% endif %}
+
+                <!-- Información en grid tipo Pokédex -->
+                <div class="info-grid">
+                    <!-- Información Taxonómica -->
+                    <div class="info-section">
+                        <h3>📋 Clasificación</h3>
+                        <div class="info-row">
+                            <span class="info-label">Género:</span>
+                            <span class="info-value">{{ serpiente.genero.nombre }}</span>
                             </div>
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="font-semibold text-gray-700">Tipo de Animal:</span>
-                                <span class="text-gray-900">{{ serpiente.tipo_animal }}</span>
+                        <div class="info-row">
+                            <span class="info-label">Familia:</span>
+                            <span class="info-value">{{ serpiente.familia }}</span>
                             </div>
-                            <div class="flex justify-between items-center py-3">
-                                <span class="font-semibold text-gray-700">Subtipo:</span>
-                                <span class="text-gray-900">{{ serpiente.subtipo|default:"No especificado" }}</span>
+                        <div class="info-row">
+                            <span class="info-label">Tipo:</span>
+                            <span class="info-value">{{ serpiente.tipo_animal }}</span>
                             </div>
+                        <div class="info-row">
+                            <span class="info-label">Subtipo:</span>
+                            <span class="info-value">{{ serpiente.subtipo|default:"No especificado" }}</span>
                         </div>
                     </div>
 
-                    <!-- General Information -->
-                    <div class="info-section rounded-lg p-6">
-                        <h3 class="text-xl font-bold text-secondary mb-6 flex items-center">
-                            <svg class="w-6 h-6 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Información General
-                        </h3>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="font-semibold text-gray-700">Hábitat:</span>
-                                <span class="text-gray-900">{{ serpiente.habitat|default:"No especificado" }}</span>
+                    <!-- Información General -->
+                    <div class="info-section">
+                        <h3>🌍 Información</h3>
+                        <div class="info-row">
+                            <span class="info-label">Hábitat:</span>
+                            <span class="info-value">{{ serpiente.habitat|default:"No especificado" }}</span>
                             </div>
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="font-semibold text-gray-700">Estado de Conservación:</span>
+                        <div class="info-row">
+                            <span class="info-label">Estado:</span>
                                 <span>
                                     {% if serpiente.peligro_extincion %}
-                                        <span class="badge-danger px-3 py-1 rounded-full text-xs font-semibold">⚠️ En Peligro</span>
+                                    <span class="badge-danger">⚠️ En Peligro</span>
                                     {% else %}
-                                        <span class="badge-success px-3 py-1 rounded-full text-xs font-semibold">✅ Estable</span>
+                                    <span class="badge-success">✅ Estable</span>
                                     {% endif %}
                                 </span>
                             </div>
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="font-semibold text-gray-700">ID de Registro:</span>
-                                <span class="text-gray-900 font-mono">#{{ serpiente.pk }}</span>
+                        <div class="info-row">
+                            <span class="info-label">ID:</span>
+                            <span class="info-value">#{{ serpiente.pk }}</span>
                             </div>
-                            <div class="flex justify-between items-center py-3">
-                                <span class="font-semibold text-gray-700">Fecha de Registro:</span>
-                                <span class="text-gray-900">{{ serpiente.pk|date:"d/m/Y" }}</span>
-                            </div>
+                        <div class="info-row">
+                            <span class="info-label">Registro:</span>
+                            <span class="info-value">{{ serpiente.pk|date:"d/m/Y" }}</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 mt-8 pt-6 border-t border-gray-200">
-                    <a href="{% url 'catalogo:serpiente-update' serpiente.pk %}" 
-                       class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Descripción -->
+                {% if serpiente.descripcion %}
+                <div class="info-section mx-4 mb-4">
+                    <h3>📝 Descripción</h3>
+                    <div class="p-4 bg-white bg-opacity-60 rounded-lg">
+                        <p class="text-gray-800 leading-relaxed">{{ serpiente.descripcion }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Botones de acción -->
+                <div class="action-buttons">
+                    <a href="{% url 'catalogo:serpiente-update' serpiente.pk %}" class="action-btn btn-edit">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
-                        <span>Editar Serpiente</span>
+                        Editar
                     </a>
                     <a href="{% url 'catalogo:serpiente-delete' serpiente.pk %}" 
                        onclick="return confirm('¿Está seguro de que desea eliminar esta serpiente?')"
-                       class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="action-btn btn-delete">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
-                        <span>Eliminar Serpiente</span>
+                        Eliminar
                     </a>
-                    <a href="{% url 'catalogo:serpiente-list' %}" 
-                       class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{% url 'catalogo:serpiente-list' %}" class="action-btn btn-back">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
-                        <span>Volver al Catálogo</span>
+                        Volver
                     </a>
                 </div>
             </div>
@@ -164,13 +255,13 @@
         {% else %}
         <!-- Error State -->
         <div class="text-center py-12">
-            <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-24 h-24 text-green-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
             </svg>
-            <h3 class="text-xl font-semibold text-gray-600 mb-2">Serpiente no encontrada</h3>
-            <p class="text-gray-500 mb-6">La serpiente que buscas no existe o ha sido eliminada</p>
+            <h3 class="text-xl font-semibold text-green-600 mb-2">Serpiente no encontrada</h3>
+            <p class="text-green-500 mb-6">La serpiente que buscas no existe o ha sido eliminada</p>
             <a href="{% url 'catalogo:serpiente-list' %}" 
-               class="bg-primary hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 inline-flex items-center space-x-2">
+               class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 inline-flex items-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>

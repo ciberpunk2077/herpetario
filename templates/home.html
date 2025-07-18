@@ -2,5 +2,381 @@
 {% load static %}
 
 {% block content %}
-{% include 'main.html' %}
+<!-- Featured Species -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-secondary mb-4">Nuestras Especies Destacadas</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Conoce algunos de los increíbles residentes de nuestro herpetario</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Species Card 1 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-[url('{% static 'assets/images/B._constrictor.jpg' %}')] bg-cover bg-center"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Serpientes</h3>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Boa constrictora</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">En México existen alrededor de 453 especies de serpientes (Uetz
+                    et al. 2024), de las cuales en Tabasco se encuentran 70, siendo
+                    ocho de importancia médica</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Mexico</span>
+                        <span>Tabasco</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Species Card 2 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-[url('{% static 'assets/images/large.jpg' %}')] bg-cover bg-center"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Anfibios</h3>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Trachycephalus vermiculatus</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">En Tabasco, México, se puede encontrar una gran diversidad de anfibios, incluyendo ranas, sapos y salamandras, que
+                    habitan en los diversos ecosistemas del estado, como selvas, lagunas y zonas costeras.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Mexico</span>
+                        <span>Tabasco</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Species Card 3 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+                <div class="h-64 bg-[url('{% static 'assets/images/moreletii.jpeg' %}')] bg-cover bg-center"></div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-bold text-secondary">Saurios</h3>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Crocodylus moreletii</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">En Tabasco, México, se pueden encontrar diversas especies de reptiles, incluyendo cocodrilos, iguanas y serpientes.</p>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>Mexico</span>
+                        <span>Tabasco</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="#" class="inline-flex items-center text-primary font-medium hover:text-primary-dark">
+                Ver todas las especies
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Estadísticas del Catálogo -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-secondary mb-4">📊 Estadísticas de Nuestro Catálogo</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Conoce la diversidad de especies en nuestro herpetario</p>
+        </div>
+
+        <!-- Tarjetas de estadísticas principales -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Total de Especies -->
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total de Especies</p>
+                        <p class="text-3xl font-bold text-primary">{{ total_especies|default:"0" }}</p>
+                    </div>
+                    <div class="text-4xl">🐍</div>
+                </div>
+            </div>
+
+            <!-- Serpientes -->
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Serpientes</p>
+                        <p class="text-3xl font-bold text-red-600">{{ total_serpientes|default:"0" }}</p>
+                    </div>
+                    <div class="text-4xl">🐍</div>
+                </div>
+            </div>
+
+            <!-- Anfibios -->
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Anfibios</p>
+                        <p class="text-3xl font-bold text-green-600">{{ total_anfibios|default:"0" }}</p>
+                    </div>
+                    <div class="text-4xl">🐸</div>
+                </div>
+            </div>
+
+            <!-- Saurios -->
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Saurios</p>
+                        <p class="text-3xl font-bold text-blue-600">{{ total_saurios|default:"0" }}</p>
+                    </div>
+                    <div class="text-4xl">🦎</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Gráfica de círculos (Pie Chart) -->
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-secondary mb-6">Distribución de Tipos de Animales</h3>
+                <div class="relative" style="height: 300px;">
+                    <canvas id="pieChart" width="400" height="300"></canvas>
+                </div>
+                <div class="mt-4 grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="w-4 h-4 bg-red-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Serpientes</span>
+                        <p class="text-lg font-bold text-red-600">{{ total_serpientes|default:"0" }}</p>
+                    </div>
+                    <div>
+                        <div class="w-4 h-4 bg-green-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Anfibios</span>
+                        <p class="text-lg font-bold text-green-600">{{ total_anfibios|default:"0" }}</p>
+                    </div>
+                    <div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Saurios</span>
+                        <p class="text-lg font-bold text-blue-600">{{ total_saurios|default:"0" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfica de distribución por tipo -->
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-secondary mb-6">Distribución por Tipo de Animal</h3>
+                <div class="space-y-4">
+                    <!-- Serpientes -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-red-500 rounded-full mr-3"></div>
+                            <span class="font-medium">Serpientes</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex-1 bg-gray-200 rounded-full h-2 mr-3 max-w-32">
+                                <div class="bg-red-500 h-2 rounded-full transition-all duration-300" style="width: {{ porcentaje_serpientes|default:0 }}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 min-w-8 text-right">{{ total_serpientes|default:"0" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Anfibios -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                            <span class="font-medium">Anfibios</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex-1 bg-gray-200 rounded-full h-2 mr-3 max-w-32">
+                                <div class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: {{ porcentaje_anfibios|default:0 }}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 min-w-8 text-right">{{ total_anfibios|default:"0" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Saurios -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-blue-500 rounded-full mr-3"></div>
+                            <span class="font-medium">Saurios</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex-1 bg-gray-200 rounded-full h-2 mr-3 max-w-32">
+                                <div class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: {{ porcentaje_saurios|default:0 }}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 min-w-8 text-right">{{ total_saurios|default:"0" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica de serpientes por subtipo -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-secondary mb-6">Serpientes por Subtipo</h3>
+                <div class="space-y-4">
+                    <!-- Venenosas -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
+                            <span class="font-medium">Venenosas</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-red-600 h-2 rounded-full" style="width: {% if total_serpientes %}{{ serpientes_venenosas|default:0|floatformat:0 }}{% else %}0{% endif %}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600">{{ serpientes_venenosas|default:"0" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- No venenosas -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
+                            <span class="font-medium">No venenosas</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-green-600 h-2 rounded-full" style="width: {% if total_serpientes %}{{ serpientes_no_venenosas|default:0|floatformat:0 }}{% else %}0{% endif %}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600">{{ serpientes_no_venenosas|default:"0" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Constrictoras -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-purple-600 rounded-full mr-3"></div>
+                            <span class="font-medium">Constrictoras</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-purple-600 h-2 rounded-full" style="width: {% if total_serpientes %}{{ serpientes_constrictoras|default:0|floatformat:0 }}{% else %}0{% endif %}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600">{{ serpientes_constrictoras|default:"0" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfica de círculos para serpientes por subtipo -->
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-secondary mb-6">Serpientes por Subtipo</h3>
+                <div class="relative" style="height: 300px;">
+                    <canvas id="serpientesPieChart" width="400" height="300"></canvas>
+                </div>
+                <div class="mt-4 grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="w-4 h-4 bg-red-600 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Venenosas</span>
+                        <p class="text-lg font-bold text-red-600">{{ serpientes_venenosas|default:"0" }}</p>
+                    </div>
+                    <div>
+                        <div class="w-4 h-4 bg-green-600 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">No venenosas</span>
+                        <p class="text-lg font-bold text-green-600">{{ serpientes_no_venenosas|default:"0" }}</p>
+                    </div>
+                    <div>
+                        <div class="w-4 h-4 bg-purple-600 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Constrictoras</span>
+                        <p class="text-lg font-bold text-purple-600">{{ serpientes_constrictoras|default:"0" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas adicionales -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                <div class="text-4xl mb-2">🏛️</div>
+                <h4 class="text-lg font-bold text-secondary mb-2">Familias</h4>
+                <p class="text-2xl font-bold text-primary">{{ total_familias|default:"0" }}</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                <div class="text-4xl mb-2">🧬</div>
+                <h4 class="text-lg font-bold text-secondary mb-2">Géneros</h4>
+                <p class="text-2xl font-bold text-primary">{{ total_generos|default:"0" }}</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                <div class="text-4xl mb-2">⚠️</div>
+                <h4 class="text-lg font-bold text-secondary mb-2">En Peligro</h4>
+                <p class="text-2xl font-bold text-red-600">{{ especies_en_peligro|default:"0" }}</p>
+            </div>
+        </div>
+
+        <!-- Gráfico de Líneas - Especies en Peligro -->
+        <div class="mt-12">
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-secondary mb-6">Especies en Peligro de Extinción por Tipo de Animal</h3>
+                <div class="relative" style="height: 400px;">
+                    <canvas id="stackedAreaChart" width="400" height="400"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="w-4 h-4 bg-red-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Serpientes en Peligro</span>
+                        <p class="text-lg font-bold text-red-600">{{ serpientes_en_peligro_count|default:"0" }}</p>
+                    </div>
+                    <div>
+                        <div class="w-4 h-4 bg-green-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Anfibios en Peligro</span>
+                        <p class="text-lg font-bold text-green-600">{{ anfibios_en_peligro_count|default:"0" }}</p>
+                    </div>
+                    <div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-sm font-medium">Saurios en Peligro</span>
+                        <p class="text-lg font-bold text-blue-600">{{ saurios_en_peligro_count|default:"0" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Familias -->
+        {% if top_familias %}
+        <div class="mt-12">
+            <h3 class="text-2xl font-bold text-secondary mb-6 text-center">Top 5 Familias con Más Especies</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {% for familia in top_familias %}
+                <div class="bg-white rounded-xl p-4 shadow-lg text-center">
+                    <div class="text-3xl mb-2">🐍</div>
+                    <h4 class="font-bold text-secondary mb-1">{{ familia.nombre }}</h4>
+                    <p class="text-2xl font-bold text-primary">{{ familia.num_especies }}</p>
+                    <p class="text-sm text-gray-600">especies</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Scripts para las gráficas -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/charts/dashboard-charts.js' %}"></script>
+<script src="{% static 'js/dashboard-init.js' %}"></script>
+
+<!-- Configurar datos de Django para JavaScript -->
+<script>
+    // Configurar datos del servidor para las gráficas
+    const chartData = {
+        // Datos principales
+        totalSerpientes: {{ total_serpientes|default:0 }},
+        totalAnfibios: {{ total_anfibios|default:0 }},
+        totalSaurios: {{ total_saurios|default:0 }},
+        
+        // Datos de serpientes por subtipo
+        serpientesVenenosas: {{ serpientes_venenosas|default:0 }},
+        serpientesNoVenenosas: {{ serpientes_no_venenosas|default:0 }},
+        serpientesConstrictoras: {{ serpientes_constrictoras|default:0 }},
+        
+        // Datos de especies en peligro
+        serpientesEnPeligroCount: {{ serpientes_en_peligro_count|default:0 }},
+        anfibiosEnPeligroCount: {{ anfibios_en_peligro_count|default:0 }},
+        sauriosEnPeligroCount: {{ saurios_en_peligro_count|default:0 }}
+    };
+
+    // Configurar e inicializar las gráficas
+    if (window.dashboardInitializer) {
+        window.dashboardInitializer.setChartData(chartData);
+        window.dashboardInitializer.initialize();
+    }
+</script>
 {% endblock %}

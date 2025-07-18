@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Búsqueda - Herpetario{% endblock %}
+
+{% block content %}
+<!-- Hero Section con búsqueda -->
+<div class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header de búsqueda -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mb-6">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">
+                {% if query %}
+                    Resultados para "{{ query }}"
+                {% else %}
+                    Buscar Especies
+                {% endif %}
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                {% if query %}
+                    Encontramos <span class="font-bold text-green-600">{{ total_resultados }}</span> resultado{{ total_resultados|pluralize }}
+                {% else %}
+                    Explora nuestro catálogo de especies herpetológicas
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Formulario de búsqueda mejorado -->
+        <div class="max-w-4xl mx-auto mb-12">
+            <form method="GET" action="{% url 'catalogo:buscar' %}" class="relative">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                           class="block w-full pl-12 pr-32 py-4 text-lg border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-200 focus:border-green-500 transition-all duration-300 shadow-lg"
+                           name="q" 
+                           value="{{ query }}" 
+                           placeholder="Buscar por familia, género, especie, nombre común o subtipo..."
+                           required>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2">
+                        <button type="submit" 
+                                class="bg-gradient-to-r from-green-500 to-blue-600 text-white px-8 py-3 rounded-xl hover:from-green-600 hover:to-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Campos de búsqueda disponibles -->
+            {% if not query %}
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 mb-3">Puedes buscar por:</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">Familia</span>
+                    <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">Género</span>
+                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium">Especie</span>
+                    <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">Nombre común</span>
+                    <span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-medium">Subtipo</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if query %}
+            {% if especies %}
+                <!-- Resultados en cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    {% for especie in especies %}
+                    <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100">
+                        <!-- Imagen -->
+                        <div class="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
+                            {% if especie.imagen %}
+                                <img src="{{ especie.imagen.url }}" 
+                                     alt="{{ especie.nombre_cientifico }}" 
+                                     class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="flex items-center justify-center h-full">
+                                    <div class="text-center">
+                                        <svg class="w-16 h-16 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <p class="text-gray-500 text-sm">Sin imagen</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Badge de tipo -->
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg
+                                    {% if especie.tipo_animal == 'Serpiente' %}bg-red-500{% elif especie.tipo_animal == 'Anfibio' %}bg-green-500{% else %}bg-yellow-500{% endif %}">
+                                    {{ especie.tipo_animal }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Contenido -->
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-1">
+                                {{ especie.nombre_cientifico }}
+                            </h3>
+                            
+                            {% if especie.nombre_comun %}
+                            <p class="text-gray-600 mb-3 italic">
+                                "{{ especie.nombre_comun }}"
+                            </p>
+                            {% endif %}
+                            
+                            <!-- Información taxonómica -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="font-semibold text-gray-700 w-16">Familia:</span>
+                                    <span class="text-gray-600">{{ especie.genero.familia.nombre }}</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <span class="font-semibold text-gray-700 w-16">Género:</span>
+                                    <span class="text-gray-600">{{ especie.genero.nombre }}</span>
+                                </div>
+                                {% if especie.subtipo %}
+                                <div class="flex items-center text-sm">
+                                    <span class="font-semibold text-gray-700 w-16">Subtipo:</span>
+                                    <span class="text-gray-600">{{ especie.subtipo }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Botón de acción -->
+                            <div class="flex justify-center">
+                                {% if especie.tipo_animal == 'Serpiente' %}
+                                    <a href="{% url 'catalogo:serpiente-detail' especie.pk %}" 
+                                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        Ver detalles
+                                    </a>
+                                {% elif especie.tipo_animal == 'Anfibio' %}
+                                    <a href="{% url 'catalogo:anfibio-detail' especie.pk %}" 
+                                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        Ver detalles
+                                    </a>
+                                {% elif especie.tipo_animal == 'Saurio' %}
+                                    <a href="{% url 'catalogo:saurio-detail' especie.pk %}" 
+                                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-xl hover:from-yellow-600 hover:to-yellow-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        Ver detalles
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Paginación mejorada -->
+                {% if is_paginated %}
+                <div class="flex justify-center">
+                    <nav class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg px-6 py-4">
+                        {% if page_obj.has_previous %}
+                            <a href="?q={{ query }}&page=1" 
+                               class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                                </svg>
+                                Primera
+                            </a>
+                            <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" 
+                               class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                Anterior
+                            </a>
+                        {% endif %}
+                        
+                        <span class="px-4 py-2 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-lg font-semibold">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                        </span>
+                        
+                        {% if page_obj.has_next %}
+                            <a href="?q={{ query }}&page={{ page_obj.next_page_number }}" 
+                               class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                                Siguiente
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                            <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}" 
+                               class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                                Última
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+                {% endif %}
+                
+            {% else %}
+                <!-- Sin resultados -->
+                <div class="max-w-2xl mx-auto text-center">
+                    <div class="bg-white rounded-2xl shadow-lg p-12">
+                        <div class="w-24 h-24 bg-gradient-to-r from-red-100 to-red-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">No se encontraron resultados</h3>
+                        <p class="text-gray-600 mb-6">
+                            No se encontraron especies que coincidan con tu búsqueda <span class="font-semibold text-gray-800">"{{ query }}"</span>.
+                        </p>
+                        <div class="space-y-3">
+                            <p class="text-sm text-gray-500">Sugerencias:</p>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Verifica la ortografía de las palabras</li>
+                                <li>• Intenta con términos más generales</li>
+                                <li>• Usa nombres científicos o comunes</li>
+                                <li>• Busca por familia o género</li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'catalogo:buscar' %}" 
+                           class="inline-flex items-center mt-6 px-6 py-3 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-xl hover:from-green-600 hover:to-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Nueva búsqueda
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    /* Animaciones suaves */
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    /* Efectos hover mejorados */
+    .hover\:shadow-2xl:hover {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Gradientes personalizados */
+    .bg-gradient-to-br {
+        background: linear-gradient(to bottom right, var(--tw-gradient-stops));
+    }
+</style>
+{% endblock %} 

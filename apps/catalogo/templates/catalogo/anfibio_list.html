@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .anfibio-card {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border: 1px solid #93c5fd;
+        transition: all 0.3s ease;
+    }
+    .anfibio-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+        border-color: #3b82f6;
+    }
+    .badge-venenoso {
+        background: linear-gradient(45deg, #dc2626, #b91c1c);
+        color: white;
+    }
+    .badge-toxico {
+        background: linear-gradient(45deg, #ea580c, #c2410c);
+        color: white;
+    }
+    .badge-default {
+        background: linear-gradient(45deg, #3b82f6, #2563eb);
+        color: white;
+    }
+</style>
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center space-x-3 mb-4">
+                <svg class="w-12 h-12 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-blue-700">🐸 Catálogo de Anfibios</h1>
+            </div>
+            <p class="text-blue-600 text-lg max-w-2xl mx-auto">
+                Explora nuestra colección de anfibios y descubre información detallada sobre cada especie
+            </p>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Buscar anfibios..." 
+                           class="pl-10 pr-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <svg class="w-5 h-5 text-blue-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+            <a href="{% url 'catalogo:anfibio-create' %}" 
+               class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 flex items-center space-x-2 shadow-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                <span>Agregar Anfibio</span>
+            </a>
+        </div>
+
+        <!-- Anfibios Grid -->
+        {% if object_list %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for anfibio in object_list %}
+                <div class="anfibio-card rounded-xl p-6">
+                    {% if anfibio.imagen %}
+                    <div class="flex justify-center mb-4">
+                        <img src="{{ anfibio.imagen.url }}" alt="Imagen de {{ anfibio.nombre_cientifico }}" class="h-28 w-auto rounded shadow border object-contain bg-white"/>
+                    </div>
+                    {% endif %}
+                    <!-- Header Card -->
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-700 mb-1">{{ anfibio.nombre_cientifico }}</h3>
+                            <p class="text-blue-600 font-medium">{{ anfibio.nombre_comun }}</p>
+                        </div>
+                        <div class="flex space-x-1">
+                            {% if anfibio.subtipo == 'Venenoso' %}
+                                <span class="badge-venenoso px-3 py-1 rounded-full text-xs font-semibold">☠️ Venenoso</span>
+                            {% elif anfibio.subtipo == 'Tóxico' %}
+                                <span class="badge-toxico px-3 py-1 rounded-full text-xs font-semibold">⚠️ Tóxico</span>
+                            {% else %}
+                                <span class="badge-default px-3 py-1 rounded-full text-xs font-semibold">{{ anfibio.subtipo|default:"No venenoso" }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Info Section -->
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <span class="text-blue-700">{{ anfibio.habitat|default:"Hábitat no especificado" }}</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                            <span class="text-blue-700">Familia: {{ anfibio.genero.familia.nombre }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-2">
+                        <a href="{% url 'catalogo:anfibio-detail' anfibio.pk %}" 
+                           class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            <span>Ver</span>
+                        </a>
+                        <a href="{% url 'catalogo:anfibio-update' anfibio.pk %}" 
+                           class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white text-center py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                            <span>Editar</span>
+                        </a>
+                        <a href="{% url 'catalogo:anfibio-delete' anfibio.pk %}" 
+                           onclick="return confirm('¿Está seguro de que desea eliminar este anfibio?')"
+                           class="flex-1 bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            <span>Eliminar</span>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-12">
+                <svg class="w-24 h-24 text-blue-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <h3 class="text-xl font-semibold text-blue-600 mb-2">No hay anfibios registrados</h3>
+                <p class="text-blue-500 mb-6">Comienza agregando el primer anfibio a tu catálogo</p>
+                <a href="{% url 'catalogo:anfibio-create' %}" 
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 inline-flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    <span>Agregar Primer Anfibio</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

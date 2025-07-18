@@ -41,6 +41,13 @@ class Especie(models.Model):
     subtipo = models.CharField(max_length=50, blank=True)  # Ej: "Venenosa", "Constrictora"
     habitat = models.CharField(max_length=100, blank=True)
     peligro_extincion = models.BooleanField(default=False)
+    
+    # Campo para imagen
+    imagen = models.ImageField(upload_to='especies/', blank=True, null=True, 
+                              help_text='Imagen representativa de la especie')
+    
+    # Campo de descripción
+    descripcion = models.TextField(blank=True, help_text='Descripción detallada de la especie')
 
     class Meta:
         verbose_name_plural = "Especies"

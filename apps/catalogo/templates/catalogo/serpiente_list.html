@@ -67,6 +67,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for serpiente in object_list %}
                 <div class="serpiente-card rounded-xl p-6">
+                    {% if serpiente.imagen %}
+                    <div class="flex justify-center mb-4">
+                        <img src="{{ serpiente.imagen.url }}" alt="Imagen de {{ serpiente.nombre_cientifico }}" class="h-28 w-auto rounded shadow border object-contain bg-white"/>
+                    </div>
+                    {% endif %}
                     <!-- Header Card -->
                     <div class="flex justify-between items-start mb-4">
                         <div>

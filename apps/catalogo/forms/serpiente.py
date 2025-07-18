@@ -1,22 +1,73 @@
 from django import forms
 
 from .base import BaseForm
-from apps.catalogo.models import Especie
+from apps.catalogo.models import Especie, Genero, Familia
 
 class SerpientesForm(BaseForm):
+    familia = forms.ModelChoiceField(queryset=Familia.objects.all(), required=True, label='Familia')
+    especie = forms.ModelChoiceField(queryset=Especie.objects.none(), required=False, label='Especie')
+    SUBTIPO_CHOICES = [
+        ('', '---------'),
+        ('Venenosa', 'Venenosa'),
+        ('Constrictora', 'Constrictora'),
+        ('No venenosa', 'No venenosa'),
+    ]
+    subtipo = forms.ChoiceField(choices=SUBTIPO_CHOICES, required=False, label='Subtipo')
 
     class Meta:
         model = Especie
         fields = (
-            'genero', 'nombre_especie', 'nombre_comun', 'tipo_animal', 'subtipo', 
-            'habitat', 'peligro_extincion'
+            'familia',
+            'genero',
+            'especie',
+            'nombre_comun',
+            'subtipo',
+            'habitat',
+            'descripcion',
+            'peligro_extincion',
+            'imagen',
         )
 
-class SerpientesUpdateForm(BaseForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'familia' in self.data:
+            try:
+                familia_id = int(self.data.get('familia'))
+                self.fields['genero'].queryset = Genero.objects.filter(familia_id=familia_id)
+            except (ValueError, TypeError):
+                self.fields['genero'].queryset = Genero.objects.none()
+        elif self.instance.pk:
+            self.fields['genero'].queryset = Genero.objects.filter(familia=self.instance.genero.familia)
+            self.fields['familia'].initial = self.instance.genero.familia
+        else:
+            self.fields['genero'].queryset = Genero.objects.none()
 
-    class Meta:
-        model = Especie
-        fields = (
-            'genero', 'nombre_especie', 'nombre_comun', 'tipo_animal', 'subtipo', 
-            'habitat', 'peligro_extincion'
-        )
+        if 'genero' in self.data:
+            try:
+                genero_id = int(self.data.get('genero'))
+                self.fields['especie'].queryset = Especie.objects.filter(genero_id=genero_id)
+            except (ValueError, TypeError):
+                self.fields['especie'].queryset = Especie.objects.none()
+        elif self.instance.pk:
+            self.fields['especie'].queryset = Especie.objects.filter(genero=self.instance.genero)
+            self.fields['especie'].initial = self.instance.pk
+        else:
+            self.fields['especie'].queryset = Especie.objects.none()
+
+        self.fields['nombre_comun'].widget.attrs['class'] = self.fields['nombre_comun'].widget.attrs.get('class', '') + ' bg-green-100'
+        self.fields['habitat'].widget.attrs['class'] = self.fields['habitat'].widget.attrs.get('class', '') + ' bg-green-100'
+        self.fields['descripcion'].widget.attrs['class'] = self.fields['descripcion'].widget.attrs.get('class', '') + ' bg-green-100'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        genero = cleaned_data.get('genero')
+        familia = cleaned_data.get('familia')
+        especie = cleaned_data.get('especie')
+        if genero and familia and genero.familia != familia:
+            self.add_error('genero', 'El género seleccionado no pertenece a la familia elegida.')
+        if especie and especie.genero != genero:
+            self.add_error('especie', 'La especie seleccionada no pertenece al género elegido.')
+        return cleaned_data
+
+class SerpientesUpdateForm(SerpientesForm):
+    pass

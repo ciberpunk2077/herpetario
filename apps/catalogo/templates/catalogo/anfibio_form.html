@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .form-card {
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        border: 1px solid #7dd3fc;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    }
+    .checkbox-custom {
+        width: 20px;
+        height: 20px;
+        accent-color: #2563eb;
+    }
+    
+    /* Estilos específicos para evitar conflictos con floating-label-form-group */
+    .anfibio-form input,
+    .anfibio-form select,
+    .anfibio-form textarea {
+        position: static !important;
+        z-index: auto !important;
+        padding: 0.75rem 1rem !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 0.5rem !important;
+        font-size: 1rem !important;
+        background: #f0f9ff !important;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+        resize: vertical !important;
+    }
+    
+    .anfibio-form label {
+        position: static !important;
+        top: auto !important;
+        opacity: 1 !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        color: #1e40af !important;
+        margin-bottom: 0.5rem !important;
+        display: block !important;
+        z-index: auto !important;
+    }
+    
+    .anfibio-form textarea {
+        min-height: 128px !important;
+    }
+    
+    /* Asegurar que los campos de especie no se superpongan */
+    .anfibio-form select option {
+        background: white !important;
+        color: #374151 !important;
+    }
+    
+    /* Limitar el ancho del campo especie */
+    .anfibio-form #id_especie {
+        max-width: 300px !important;
+        width: 100% !important;
+    }
+    
+    /* Asegurar que el contenedor del campo especie también tenga ancho limitado */
+    .especie-field-container {
+        max-width: 300px !important;
+    }
+</style>
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center space-x-3 mb-4">
+                <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8m-4-4v8"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-blue-700">
+                    {% if edit %}
+                        ✏️ Editar Anfibio
+                    {% else %}
+                        🐸 Nuevo Anfibio
+                    {% endif %}
+                </h1>
+            </div>
+            <p class="text-blue-600 text-lg max-w-2xl mx-auto">
+                {% if edit %}
+                    Modifica la información del anfibio seleccionado
+                {% else %}
+                    Agrega un nuevo anfibio al catálogo del herpetario
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="max-w-4xl mx-auto">
+            <div class="form-card rounded-xl p-8">
+                <form method="post" enctype="multipart/form-data" class="space-y-6 anfibio-form">
+                    {% csrf_token %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Columna izquierda: Familia, Género, Especie -->
+                        <div class="space-y-6">
+                            <!-- Familia -->
+                            <div>
+                                <label for="{{ form.familia.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    <span class="text-red-500">*</span> Familia
+                                </label>
+                                <div class="flex flex-row items-center gap-1">
+                                    {{ form.familia }}
+                                    <button type="button" class="bg-blue-500 text-white rounded-lg font-bold flex items-center justify-center text-lg h-10 w-10 ml-0 hover:bg-blue-700 transition" style="margin-left:5px;" onclick="openFamiliaModal()" title="Agregar familia">
+                                        +
+                                    </button>
+                                </div>
+                                {% if form.familia.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.familia.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Género -->
+                            <div>
+                                <label for="{{ form.genero.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    <span class="text-red-500">*</span> Género
+                                </label>
+                                <div class="flex flex-row items-center gap-1">
+                                    {{ form.genero }}
+                                    <button type="button" id="btnNuevoGenero" class="bg-blue-500 text-white rounded-lg font-bold flex items-center justify-center text-lg h-10 w-10 ml-0 hover:bg-blue-700 transition" style="margin-left:5px;" onclick="openGeneroModal()" title="Crear nuevo género">
+                                        +
+                                    </button>
+                                </div>
+                                <div id="msgNoGeneros" class="text-sm text-blue-500 mt-2 hidden">No hay géneros para esta familia.</div>
+                                {% if form.genero.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.genero.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Especie -->
+                            <div class="especie-field-container">
+                                <label for="{{ form.especie.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    <span class="text-red-500">*</span> Especie
+                                </label>
+                                <div class="flex flex-row items-center gap-1">
+                                    {{ form.especie }}
+                                    <button type="button" id="btnNuevaEspecie" class="bg-blue-500 text-white rounded-lg font-bold flex items-center justify-center text-lg h-10 w-10 ml-0 hover:bg-blue-700 transition" style="margin-left:5px;" onclick="openEspecieModal()" title="Crear nueva especie">
+                                        +
+                                    </button>
+                                </div>
+                                <div id="msgNoEspecies" class="text-sm text-blue-500 mt-2 hidden">No hay especies para este género.</div>
+                                {% if form.especie.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.especie.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Imagen -->
+                            <div>
+                                <label for="{{ form.imagen.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    Imagen del anfibio
+                                </label>
+                                {% if form.instance.imagen %}
+                                    <div class="mb-2">
+                                        <img src="{{ form.instance.imagen.url }}" alt="Imagen actual" class="h-48 w-full object-cover rounded shadow border"/>
+                                        <p class="text-xs text-blue-500">Imagen actual</p>
+                                    </div>
+                                {% endif %}
+                                <input type="file" name="imagen" id="{{ form.imagen.id_for_label }}" class="form-input w-full px-4 py-3 rounded-lg bg-blue-50" accept="image/*">
+                                {% if form.imagen.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.imagen.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Columna derecha: Resto de la información -->
+                        <div class="space-y-6">
+                            <!-- Nombre común -->
+                            <div>
+                                <label for="{{ form.nombre_comun.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    Nombre común
+                                </label>
+                                {{ form.nombre_comun }}
+                                {% if form.nombre_comun.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.nombre_comun.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Subtipo -->
+                            <div>
+                                <label for="{{ form.subtipo.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    Subtipo
+                                </label>
+                                {{ form.subtipo }}
+                                {% if form.subtipo.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.subtipo.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Hábitat -->
+                            <div>
+                                <label for="{{ form.habitat.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    Hábitat
+                                </label>
+                                {{ form.habitat }}
+                                {% if form.habitat.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.habitat.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Descripción -->
+                            <div>
+                                <label for="{{ form.descripcion.id_for_label }}" class="block text-sm font-semibold text-blue-700 mb-2">
+                                    Descripción
+                                </label>
+                                {{ form.descripcion }}
+                                {% if form.descripcion.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.descripcion.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Peligro de extinción -->
+                            <div>
+                                <label class="block text-sm font-semibold text-blue-700 mb-2">
+                                    Estado de Conservación
+                                </label>
+                                <div class="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg">
+                                    {{ form.peligro_extincion }}
+                                    <label for="{{ form.peligro_extincion.id_for_label }}" class="text-blue-700">
+                                        <span class="font-medium">En peligro de extinción</span>
+                                        <p class="text-sm text-blue-500">Marcar si la especie está amenazada</p>
+                                    </label>
+                                </div>
+                                {% if form.peligro_extincion.errors %}
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        {{ form.peligro_extincion.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-blue-200">
+                        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>
+                                {% if edit %}
+                                    Actualizar Anfibio
+                                {% else %}
+                                    Crear Anfibio
+                                {% endif %}
+                            </span>
+                        </button>
+                        <a href="{% url 'catalogo:anfibio-list' %}" 
+                           class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            <span>Cancelar</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modales y JS para AJAX -->
+<script src="{% static 'js/modal-ajax.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplicar fondo a todos los inputs y selects del formulario
+    document.querySelectorAll('input[type="text"], input[type="file"], select, textarea').forEach(function(el) {
+        el.classList.remove('bg-green-50');
+        el.classList.add('bg-blue-50');
+    });
+});
+</script>
+{% endblock %} 
